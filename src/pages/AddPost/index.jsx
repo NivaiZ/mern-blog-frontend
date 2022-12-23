@@ -55,7 +55,7 @@ export const AddPost = () => {
 
       const { data } = isEditing
         ? await axios.patch(`/posts/${id}`, fields)
-        : await axios.post('/posts', fields)
+        : await axios.post('/posts', fields);
 
       const _id = isEditing ? id : data._id;
       navigate(`/posts/${_id}`);
@@ -110,9 +110,9 @@ export const AddPost = () => {
           <Button variant="contained" color="error" onClick={onClickRemoveImage}>
             Удалить
           </Button>
-          <img className={styles.image} 
-          src={`${process.env.REACT_APP_API_URL}${imageUrl}`}
-          alt="Uploaded" />
+          <img className={styles.image}
+            src={`${process.env.REACT_APP_API_URL}${imageUrl}`}
+            alt="Uploaded" />
         </>
       )}
       <br />
