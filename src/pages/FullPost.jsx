@@ -32,7 +32,7 @@ export const FullPost = () => {
         createdAt={data.createdAt}
         viewsCount={data.viewsCount}
         commentsCount={3}
-        tags={[data.tags]}
+        tags={data.tags}
         isFullPost>
         <ReactMarkdown children={data.text} />
       </Post>
