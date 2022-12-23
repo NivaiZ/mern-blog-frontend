@@ -60,9 +60,12 @@ const postsSlice = createSlice({
     },
 
     // Удаление статьи
+
     [fetchRemovePost.pending]: (state, action) => {
-      state.posts.items = state.posts.items.filter((obj) => obj._id !== action.meta.arg);
+      state.posts.items = state.posts.items.filter(obj => obj._id !== action.meta.arg);
+      state.tags.status = 'loading';
     },
+
   },
 });
 

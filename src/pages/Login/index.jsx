@@ -1,18 +1,17 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
-
-import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
-import Paper from '@mui/material/Paper';
-import Button from '@mui/material/Button';
+import React from "react";
+import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
+import Paper from "@mui/material/Paper";
+import { Navigate } from "react-router-dom";
+import Button from "@mui/material/Button";
 import { useForm } from 'react-hook-form';
-
-import styles from './Login.module.scss';
-import { fetchAuth, selectIsAuth } from '../../redux/slices/auth';
+import { useDispatch, useSelector } from 'react-redux';
+import styles from "./Login.module.scss";
+import { fetchAuth, selectIsAuth } from "../../redux/slices/auth";
 
 export const Login = () => {
   const isAuth = useSelector(selectIsAuth);
+
   const dispatch = useDispatch();
   const {
     register,
@@ -20,26 +19,26 @@ export const Login = () => {
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
-      email: 'test@test.ru',
-      password: '123',
+      email: 'test123@mail.ru',
+      password: 'qwerty123'
     },
-    mode: 'onChange',
-  });
+    mode: 'onChange'
+  })
 
   const onSubmit = async (values) => {
     const data = await dispatch(fetchAuth(values));
-
+    console.log(data);
     if (!data.payload) {
-      return alert('Не удалось авторизоваться!');
+      return alert('Не удалось авторизоваться!')
     }
 
     if ('token' in data.payload) {
-      window.localStorage.setItem('token', data.payload.token);
+      window.localStorage.setItem('token', data.payload.token)
     }
-  };
+  }
 
   if (isAuth) {
-    return <Navigate to="/" />;
+    return <Navigate to="/" />
   }
 
   return (
@@ -51,20 +50,23 @@ export const Login = () => {
         <TextField
           className={styles.field}
           label="E-Mail"
+          type="email"
           error={Boolean(errors.email?.message)}
           helperText={errors.email?.message}
-          type="email"
           {...register('email', { required: 'Укажите почту' })}
           fullWidth
         />
+
         <TextField
           className={styles.field}
           label="Пароль"
+          type="password"
           error={Boolean(errors.password?.message)}
           helperText={errors.password?.message}
           {...register('password', { required: 'Укажите пароль' })}
           fullWidth
         />
+
         <Button disabled={!isValid} type="submit" size="large" variant="contained" fullWidth>
           Войти
         </Button>

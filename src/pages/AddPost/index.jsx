@@ -1,15 +1,14 @@
 import React from 'react';
-import { useNavigate, Navigate, useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import SimpleMDE from 'react-simplemde-editor';
-
-import 'easymde/dist/easymde.min.css';
 import { selectIsAuth } from '../../redux/slices/auth';
-import axios from '../../axios';
+import { useSelector } from 'react-redux';
+import { useNavigate, Navigate, useParams } from 'react-router-dom';
+import 'easymde/dist/easymde.min.css';
 import styles from './AddPost.module.scss';
+import axios from "../../axios"
 
 export const AddPost = () => {
   const { id } = useParams();
@@ -21,24 +20,22 @@ export const AddPost = () => {
   const [tags, setTags] = React.useState('');
   const [imageUrl, setImageUrl] = React.useState('');
   const inputFileRef = React.useRef(null);
-
   const isEditing = Boolean(id);
-
   const handleChangeFile = async (event) => {
     try {
       const formData = new FormData();
-      const file = event.target.files[0];
+      const file = event.target.files[0]
       formData.append('image', file);
       const { data } = await axios.post('/upload', formData);
       setImageUrl(data.url);
     } catch (err) {
       console.warn(err);
-      alert('Ошибка при загрузке файла!');
+      alert('Ошибка при загрузке файла')
     }
   };
 
   const onClickRemoveImage = () => {
-    setImageUrl('');
+    setImageUrl();
   };
 
   const onChange = React.useCallback((value) => {
@@ -61,14 +58,13 @@ export const AddPost = () => {
         : await axios.post('/posts', fields);
 
       const _id = isEditing ? id : data._id;
-
       navigate(`/posts/${_id}`);
+
     } catch (err) {
       console.warn(err);
-      alert('Ошибка при создании статьи!');
+      alert('Ошибка при создании статьи')
     }
-  };
-
+  }
   React.useEffect(() => {
     if (id) {
       axios
@@ -78,14 +74,12 @@ export const AddPost = () => {
           setText(data.text);
           setImageUrl(data.imageUrl);
           setTags(data.tags.join(','));
-        })
-        .catch((err) => {
+        }).catch(err => {
           console.warn(err);
-          alert('Ошибка при получении статьи!');
-        });
+          alert('Ошибка при получении статьи!')
+        })
     }
-  }, []);
-
+  }, [])
   const options = React.useMemo(
     () => ({
       spellChecker: false,
@@ -102,7 +96,7 @@ export const AddPost = () => {
   );
 
   if (!window.localStorage.getItem('token') && !isAuth) {
-    return <Navigate to="/" />;
+    return <Navigate to="/" />
   }
 
   return (
@@ -116,18 +110,14 @@ export const AddPost = () => {
           <Button variant="contained" color="error" onClick={onClickRemoveImage}>
             Удалить
           </Button>
-          <img
-            className={styles.image}
+          <img className={styles.image}
             src={`${process.env.REACT_APP_API_URL}${imageUrl}`}
-            alt="Uploaded"
-          />
+            alt="Uploaded" />
         </>
       )}
       <br />
       <br />
       <TextField
-        value={fields.title}
-        onChange={(e) => setFieldValue('title', e.target.value)}
         classes={{ root: styles.title }}
         variant="standard"
         placeholder="Заголовок статьи..."
@@ -141,8 +131,7 @@ export const AddPost = () => {
         classes={{ root: styles.tags }}
         variant="standard"
         placeholder="Тэги"
-        fullWidth
-      />
+        fullWidth />
       <SimpleMDE className={styles.editor} value={text} onChange={onChange} options={options} />
       <div className={styles.buttons}>
         <Button onClick={onSubmit} size="large" variant="contained">
