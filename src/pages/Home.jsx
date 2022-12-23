@@ -40,7 +40,7 @@ export const Home = () => {
                 createdAt={obj.createdAt}
                 viewsCount={obj.viewsCount}
                 commentsCount={3}
-                tags={[obj.tags]}
+                tags={obj.tags}
                 isEditable={userData?._id === obj.user._id}
               />
             ),
