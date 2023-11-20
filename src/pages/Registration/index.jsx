@@ -53,6 +53,7 @@ export const Registration = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <TextField
           type="text"
+          label='Укажите имя'
           className={styles.field}
           error={Boolean(errors.fullName?.message)}
           helperText={errors.fullName?.message}
@@ -61,12 +62,14 @@ export const Registration = () => {
         <TextField
           type="email"
           className={styles.field}
+          label="Укажите email"
           error={Boolean(errors.email?.message)}
           helperText={errors.email?.message}
           {...register('email', { required: 'Укажите почту' })} fullWidth />
 
         <TextField
           type="password"
+          label="Введите пароль"
           error={Boolean(errors.password?.message)}
           className={styles.field}
           helperText={errors.password?.message}
